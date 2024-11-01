@@ -1,0 +1,47 @@
+<form [formGroup]="currencyForm">
+  <section>
+    <mat-form-field appearance="outline">
+      <mat-label>Input Amount</mat-label>
+      <input formControlName="inputCurrency" matInput placeholder="Enter Amount" type="number">
+      @if (currencyForm.get('inputCurrency')?.hasError) {
+        <mat-error>Value to convert is Required</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Select Currency</mat-label>
+      <mat-select formControlName="inputSelectCurrency">
+        @for ( currency of currencies; track currency) {
+          <mat-option [value]="currency.short_code">{{currency.short_code}} ({{currency.name}})</mat-option>
+        }
+      </mat-select>
+      @if (currencyForm.get('inputSelectCurrency')?.hasError) {
+        <mat-error>Currency type required</mat-error>
+      }
+    </mat-form-field>
+  </section>
+  <section>
+    <mat-form-field appearance="outline">
+      <mat-label>Output Amount</mat-label>
+      <input formControlName="outputCurrency" matInput placeholder="Enter Amount" type="number" [disabled]="true" readonly="true" tabindex="-1">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Select Currency</mat-label>
+      <mat-select formControlName="outputSelectCurrency">
+        @for ( currency of currencies; track currency) {
+          <mat-option [value]="currency.short_code">{{currency.short_code}} ({{currency.name}})</mat-option>
+        }
+      </mat-select>
+      @if (currencyForm.get('outputSelectCurrency')?.hasError) {
+        <mat-error>Currency type required</mat-error>
+      }
+    </mat-form-field>
+  </section>
+  <section>
+    <button mat-raised-button color="primary" [disabled]="currencyForm.invalid" (click)="onSubmit()">Convert</button>
+    @if (currencyForm.invalid && currencyForm.touched) {
+      <mat-error>All fields in red Required for conversion</mat-error>
+    }
+  </section>
+</form>
+
+  
